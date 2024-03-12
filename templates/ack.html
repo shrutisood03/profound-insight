@@ -1,0 +1,116 @@
+{% extends "webpage.html" %}
+
+{% block content %}
+<title>success</title>
+<style>
+        body .body{
+            font-family: 'Open Sans', sans-serif;
+            
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .upload-form {
+            width: 300px;
+            margin-left: 80%; 
+            margin-bottom: 150%;
+        }
+
+body .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+    .card h3 {
+            font-size: 18px;
+            margin: 0 0 10px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: auto;
+            padding: 10px;
+            margin-top: 30px;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+.card-content {
+            padding: 2px;
+               
+        }
+.card {
+    width: 120px;
+    height: 120px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    flex: 0 0 auto;
+    margin-right: 20px; 
+}
+
+
+
+.btn-download {
+    display: block;
+    text-align: center;
+    background-color:#00AFB9;
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-download:hover {
+    background-color: #00AFB9;
+}
+h5 {
+            margin-left: 13px; 
+            margin-top: 150px
+        }
+    </style>
+
+<div class="container">
+    <h5>Handwritten:</h5>
+    <div class="card-container">
+        {% for file in handwritten_files_list %}
+            <div class="card">
+                <div class="card-content">
+                    <h3>{{ file }}</h3>
+                    <a href="{{ url_for('auth.download_file', filename=file, category='handwritten') }}" class="btn-download">Download</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container">
+    <h5>Teacher:</h5>
+    <div class="card-container">
+        {% for file in google_files_list %}
+            <div class="card">
+                <div class="card-content">
+                    <h3>{{ file }}</h3>
+                    <a href="{{ url_for('auth.download_file', filename=file, category='google') }}" class="btn-download">Download</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- <ul>
+    {% for file in files %}
+    <li>
+        <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
+            {{ (request.path + '/' if request.path != '/' else '') + file }}
+        </a>
+    </li>
+    {% endfor %}
+</ul> -->
+
+{% endblock %}

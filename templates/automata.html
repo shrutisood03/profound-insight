@@ -1,0 +1,219 @@
+{% extends "webpage.html" %}
+
+{% block content %} 
+
+    <style>
+        body{
+            background-image: url('static/css/bg-02.jpg');
+            /* background-image: linear-gradient(135deg, #000000ff, #ddbdd5ff, #0c1821ff, #1b2a41ff, #324a5fff); */
+        }
+        body .body{
+            font-family: 'Open Sans', sans-serif;
+            
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .upload-form {
+            width: 300px;
+            margin-left: 80%; 
+            margin-bottom: 150%;
+        }
+
+body .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+.live-search-box {
+    width: 200px; 
+    height: 40px; 
+    padding: 10px;
+    font-size: 16px; 
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    text-align: center;
+    margin-top: 90px; 
+    margin-left: 500px; 
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+            font-size: 18px;
+            margin: 0 0 10px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: auto;
+            padding: 10px;
+            margin-top: 30px;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+.card-content {
+            padding: 2px;
+               
+        }
+.card {
+    width: 120px;
+    height: 120px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    flex: 0 0 auto;
+    margin-right: 20px; 
+}
+
+
+
+.btn-download {
+    display: block;
+    text-align: center;
+    background-color:#00AFB9;
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-download:hover {
+    background-color: #00AFB9;
+}
+h5 {
+            margin-left: 13px; 
+        }
+        .upload-btn-wrapper {
+  position: absolute;
+  top: 150px; /* Adjust the distance from the top as needed */
+  right: 20px; /* Adjust the distance from the right as needed */
+  overflow: hidden;
+  display: inline-block;
+}
+.select {
+    position: fixed;
+    top: 110px; 
+    right: 20px; 
+    z-index: 999; 
+}
+.btn {
+  border: 2px transparent;
+  color:  black;;
+  background-color:  #FED9B7;;
+  padding: 6px 14px; /* Adjust the padding to make the button smaller */
+  border-radius: 8px;
+  font-size: 16px; /* Adjust the font size */
+  font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+
+
+
+
+    </style> 
+
+<body>
+
+    <input type="text" class="live-search-box" placeholder="Search" />
+
+    <div class="container">
+        <h5>Handwritten:</h5>
+        <div class="card-container">
+            {% for file in handwritten_files_list %}
+                <div class="card" data-category="handwritten">
+                    <div class="card-content">
+                        <h3>{{ file }}</h3>
+                        <a href="{{ url_for('auth.download_file',category='handwritten', filename=file) }}" class="btn-download">Download</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="container">
+        <h5>Teacher:</h5>
+        <div class="card-container">
+            {% for file in google_files_list %}
+                <div class="card" data-category="google">
+                    <div class="card-content">
+                        <h3>{{ file }}</h3>
+                        <a href="{{ url_for('auth.download_file', category='google',filename=file) }}" class="btn-download">Download</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+ 
+    <!-- <div class="container">
+        <div class="upload-form">
+            <div class="upload-btn-wrapper">
+                <div class="upload-btn-wrapper">
+                  <form action="/success" method="POST" enctype="multipart/form-data">
+                    <button class="btn">Upload a file</button>
+                    <input type="file" name="file" required>
+                    <select name="category">
+                        <option value="handwritten">Handwritten</option>
+                        <option value="google">Google</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div> -->
+    <div class="upload-btn-wrapper">
+        <button class="btn">Upload</button>
+        <input type="file" name="file" />
+      </div>
+    <div class="select">
+      <select name="category">
+        <option value="handwritten">Handwritten</option>
+        <option value="Teacher">Teacher</option>
+    </select>
+</div>
+
+        
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script> 
+
+    <script type="text/javascript"> 
+        jQuery(document).ready(function($){ 
+            $('.card-content').each(function(){ 
+                $(this).attr('data-search-term', $(this).text().toLowerCase()); 
+            }); 
+
+            $('.live-search-box').on('keyup', function(){ 
+                var searchTerm = $(this).val().toLowerCase(); 
+                $('.card-content,h5').each(function(){ 
+                    if (searchTerm === "" || $(this).filter('[data-search-term *= ' + searchTerm + ']').length > 0) { 
+                        $(this).parent('.card').show(); // Show the parent card element
+                    } else { 
+                        $(this).parent('.card').hide(); // Hide the parent card element
+                    } 
+                }); 
+            }); 
+        }); 
+        
+    </script>  
+    
+    
+</body>
+</html>
+{% endblock %}

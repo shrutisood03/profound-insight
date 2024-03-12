@@ -1,0 +1,114 @@
+{% extends "webpage.html" %}
+
+{% block content %}
+<style>
+     /* body{
+        background-image: url('static/css/bg-02.jpg');
+    } */
+    body, html {
+    background-image: url('static/css/bg-02.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; 
+    height: 100%; 
+    margin: 0; 
+    padding: 0; 
+}
+
+    .login-box {
+        width: 400px;
+        margin: 0 auto;  
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+        margin-top: 50px;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .login-box h3 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+    }
+
+    .form-group label {
+        font-size: 16px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .checkbox-group {
+        margin-bottom: 20px;
+    }
+
+    .checkbox-group label {
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+    .button {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 15px;
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+    .button:hover {
+        background-color: #0056b3;
+    }
+
+    .notification {
+        background-color: #f44336;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+<div class="login-box">
+    <h3>Login</h3>
+    <form method="POST" action="/login">
+        <div class="form-group">
+            
+            <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
+        </div>
+
+        <div class="form-group">
+           
+            <input class="input is-large" type="password" name="password" placeholder="Your Password">
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" id="remember">
+            <label for="remember">Remember me</label>
+        </div>
+        <button class="button is-info">Login</button>
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}
