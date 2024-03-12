@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flask Auth Example</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<style>
+    body {
+        background-color: rgb(229, 231, 237);
+    }
+
+    .navbar {
+        padding-left: 2rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-item {
+        color: #2d0072;
+        font-size: 20px;
+        font-weight: bolder;
+        padding: 10px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .navbar-item:hover {
+        background-color: #6e58df;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .content {
+        display: flex;
+    }
+    .bg-box{
+        width: 60%;
+        background-color: #C09BD8; 
+        min-height: 50vh;
+        padding: 45px;
+        margin: 10%;
+        position: relative;
+        border-radius: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .image-box {
+        background-image: url('https://mobirise.com/extensions/workflowm5/chat-app/assets/images/mbr-3.jpeg'); /* Replace with your image URL */
+        background-size: cover;
+        width: 150%;
+        min-height: 55vh;
+        padding: 45px;
+        margin: 5%;
+        position: relative;
+        border-radius: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .image-box img {
+        display: none; /* Hide the image element */
+    }
+
+    .text-box {
+        padding: 2rem;
+        width: 50%;
+        color: #231258;
+        margin-top: 100px;
+    }
+
+    .text-box h1 {
+        font-size: 48px;
+        font-weight: bold;
+        text-align: center;
+        margin-right: 45px;
+    }
+
+    .text-box h2 {
+        font-size: 24px;
+        margin-top: 1rem;
+        text-align: center;
+    }
+
+    .subtitle{
+        margin-right : 3rem;
+    }
+    .btn {
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 10px 20px;
+        display: inline-block;
+        border-radius: 25px;
+        transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    }
+
+    .btn-login {
+        background-color: #100a53;
+        color: #fff;
+        margin-top: 1rem;
+        margin-left: 5rem;
+    }
+
+    .btn-signup {
+        background-color: #100a53;
+        color: #fff;
+        margin-top: 1rem;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(71, 9, 215, 0.2);
+        background-color: #100a53;
+        color: #fff;
+    }
+
+    .btn::after {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        border-radius: 100px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        transition: all .4s;
+    }
+
+    .section {
+        padding: 80px 0;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 50px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #080432;
+    }
+
+    .feature {
+        margin: 0 auto;
+        max-width: 300px;
+        padding: 20px;
+        font-weight: bold;
+        color: #0d032b;
+        background-color: #EDE3E9;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+        margin-bottom: 30px;
+    }
+
+    .feature-icon {
+        font-size: 36px;
+        
+    }
+
+    .feature-title {
+        font-size: 24px;
+        margin: 20px 0;
+    }
+
+    .feature-description {
+        font-size: 20px;
+    }
+</style>
+
+<body>
+        <nav class="navbar">
+            <div class="container">
+                        <a href="{{ url_for('main.index') }}" class="navbar-item">
+                            Home
+                        </a>
+                        <a href="{{ url_for('main.profile') }}" class="navbar-item">
+                            Profile
+                        </a>
+                        <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                            Logout
+                        </a>
+                        <a href="{{ url_for('auth.notes') }}" class="navbar-item">
+                            Class
+                        </a>
+                    </div>
+        </nav>
+
+    
+{% block content %}
+
+<div class="content">
+    <div class="bg-box">
+        <div class="image-box"></div>
+    </div>
+    <div class="text-box">
+        <img src="static/css/image .jpg" style="width: 50%; margin-left: 5rem;">
+        <h1 class="title">Profound Insight</h1>
+        <h2 class="subtitle">Welcome!</h2>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-login">Login</a>
+        <a href="{{ url_for('auth.signup') }}" class="btn btn-signup">Sign Up</a>
+    </div>
+</div>
+
+
+    </div>
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature">
+                        <div class="feature-icon"><svg fill="none" height="50" viewBox="0 0 24 24" width="50" xmlns="http://www.w3.org/2000/svg"><g fill="#28303f"><path d="m6 4v6c0 1.1046.89543 2 2 2h12c1.1046 0 2-.8954 2-2v-6c0-1.10457-.8954-2-2-2h-12c-1.10457 0-2 .89543-2 2z" opacity=".4"/><path clip-rule="evenodd" d="m17.427 8.38342c.3406.23578.4255.70299.1897 1.04356l-4.9269 6.11662-1.2333-.8538 4.927-6.11664c.2357-.34056.7029-.42551 1.0435-.18974z" fill-rule="evenodd"/><circle cx="5" cy="9" r="2"/><path d="m8 15v.5l3.2428-1.7c.6889-.4384 1.6038-.2224 2.0239.4778.4071.6786.1957 1.5582-.4754 1.9776l-4.02704 2.1419c-.24082.1505-.50086.2434-.76426.2827v2.32c0 .5523-.44772 1-1 1h-4c-.55228 0-1-.4477-1-1v-6c0-1.6569 1.34315-3 3-3s3 1.3431 3 3z"/><g clip-rule="evenodd" fill-rule="evenodd"><path d="m9.25 6c0-.41421.33579-.75.75-.75h8c.4142 0 .75.33579.75.75s-.3358.75-.75.75h-8c-.41421 0-.75-.33579-.75-.75z"/><path d="m9.25 9c0-.41421.33579-.75.75-.75h4c.4142 0 .75.33579.75.75s-.3358.75-.75.75h-4c-.41421 0-.75-.33579-.75-.75z"/></g></g></svg></div>
+
+                        <div class="feature-title">Feature 1</div>
+                        <div class="feature-description">Teacher's notes</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature">
+                        <div class="feature-icon"><svg fill="none" height="50" viewBox="0 0 24 24" width="50" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="m11.25 4.37808c-2.11905-1.4558-5.06047-2.11875-7.25567-2.36681-1.09791-.12406-1.99433.79275-1.99433 1.92391v11.26482c0 1.1311.89642 2.0483 1.99433 2.1723 2.1952.2481 5.13662.911 7.25567 2.3668zm1.5 15.36102c2.119-1.4558 5.0605-2.1187 7.2557-2.3668 1.0979-.124 1.9943-1.0412 1.9943-2.1723v-11.26482c0-1.13116-.8964-2.04797-1.9943-1.92391-2.1952.24806-5.1367.91101-7.2557 2.36681zm-8.49118-12.59914c.06339-.40933.44661-.68977.85595-.62638 1.30277.20176 2.76992.53899 4.15572 1.07488.38633.1494.57841.58369.42901.97003-.14939.38633-.58369.57841-.97002.42901-1.25865-.48672-2.6155-.80129-3.84428-.99159-.40933-.06339-.68977-.44661-.62638-.85595zm.85595 3.37364c-.40934-.0634-.79256.217-.85595.6264-.06339.4093.21705.7925.62638.8559.61924.0959 1.27292.2237 1.93131.3898.40163.1013.80936-.1421.91069-.5438.10133-.4016-.14211-.8093-.54374-.9106-.70901-.1789-1.40896-.3155-2.06869-.4177z" fill="#28303f" fill-rule="evenodd"/></svg></div>
+                        <div class="feature-title">Feature 2</div>
+                        <div class="feature-description">Handwritten notes</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 16 16"><path d="m14 12v-6h-9v6h4v1h-2v1h5v-1h-2v-1zm-8-1v-4h7v4zm1-6h-3v-1h3zm1 0v-2h-5v7h1v3h2v1h-3a1 1 0 0 1 -1-1v-10a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v2z"/></svg></div>
+
+                        <div class="feature-title">Feature 3</div>
+                        <div class="feature-description">Other resources</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</body>
+
+
+
+</html>
